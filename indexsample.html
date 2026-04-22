@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SYBUG STORE</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:wght@400;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;transition:background .4s,color .4s,border-color .4s;}
+
+[data-theme="dark"]{
+  --bg:#0c0c0c;--bg2:#111;--bg3:#161616;
+  --text:#f5f5f0;--muted:#666;--muted2:#444;
+  --accent:#c8a96e;--accent2:#e8c98e;
+  --card:#141414;--border:rgba(255,255,255,.07);
+  --nav-bg:rgba(12,12,12,.85);
+}
+[data-theme="light"]{
+  --bg:#fafaf7;--bg2:#f2f2ee;--bg3:#ececea;
+  --text:#0c0c0c;--muted:#999;--muted2:#ccc;
+  --accent:#8a6a3a;--accent2:#b08a55;
+  --card:#fff;--border:rgba(0,0,0,.07);
+  --nav-bg:rgba(250,250,247,.85);
+}
+
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--accent);}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:200;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--text);letter-spacing:3px;text-transform:uppercase;}
+.logo span{color:var(--accent);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;transition:.25s;}
+.nav-links a:hover{color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.theme-toggle{width:44px;height:24px;border-radius:50px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;position:relative;transition:.3s;}
+.theme-toggle::after{content:'';position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:var(--accent);transition:.3s;}
+[data-theme="dark"] .theme-toggle::after{left:4px;}
+[data-theme="light"] .theme-toggle::after{left:22px;}
+.cart-pill{display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:7px 18px;border-radius:50px;font-size:.75rem;font-weight:600;letter-spacing:1px;border:none;cursor:pointer;transition:.3s;}
+[data-theme="light"] .cart-pill{color:#fff;}
+.cart-pill:hover{opacity:.85;transform:scale(1.03);}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 48px;gap:60px;padding-top:64px;}
+.hero-left{max-width:560px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:32px;}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--accent);}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,5vw,5.5rem);font-weight:700;line-height:1.05;letter-spacing:-1px;margin-bottom:24px;color:var(--text);}
+.hero h1 em{font-style:italic;color:var(--accent);}
+.hero-sub{font-size:.95rem;color:var(--muted);line-height:1.85;max-width:400px;margin-bottom:44px;font-weight:300;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:52px;}
+.btn-main{padding:13px 32px;background:var(--text);color:var(--bg);border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:.3s;}
+.btn-main:hover{background:var(--accent);color:#fff;}
+.btn-ghost{padding:13px 32px;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:.3s;}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.hero-stats{display:flex;gap:40px;}
+.hstat-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:600;color:var(--text);}
+.hstat-label{font-size:.7rem;color:var(--muted);letter-spacing:1px;margin-top:2px;}
+.hero-right{position:relative;height:580px;display:flex;align-items:center;justify-content:center;}
+.hero-visual{width:100%;height:100%;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.hero-visual-text{font-family:'Playfair Display',serif;font-size:clamp(4rem,8vw,9rem);font-weight:700;color:var(--border);letter-spacing:-4px;user-select:none;line-height:1;}
+.hero-float{position:absolute;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;backdrop-filter:blur(10px);}
+.hf1{top:24px;right:24px;}
+.hf2{bottom:24px;left:24px;}
+.hf-label{font-size:.6rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.hf-val{font-size:.88rem;font-weight:600;color:var(--text);}
+.hf-dot{width:7px;height:7px;border-radius:50%;background:#4caf82;display:inline-block;margin-right:6px;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* MARQUEE */
+.marquee{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;background:var(--bg2);}
+.marquee-track{display:flex;animation:slide 22s linear infinite;white-space:nowrap;}
+.marquee-track span{font-size:.68rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--muted);padding:0 28px;}
+.marquee-track span.dot{color:var(--accent);padding:0 4px;}
+@keyframes slide{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SECTION BASE */
+section{padding:96px 48px;}
+.sec-label{font-size:.68rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:600;color:var(--text);margin-bottom:56px;line-height:1.15;}
+.sec-title em{font-style:italic;color:var(--muted);}
+
+/* CATEGORIES */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.cat-card{position:relative;border-radius:8px;overflow:hidden;height:420px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);transition:.4s;}
+.cat-card:hover{border-color:var(--accent);transform:translateY(-6px);}
+.cat-inner{height:100%;padding:36px 32px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;z-index:1;}
+.cat-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:700;color:var(--border);position:absolute;top:24px;right:24px;line-height:1;}
+.cat-emoji{font-size:2.2rem;margin-bottom:20px;}
+.cat-tag{font-size:.62rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.cat-name{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:600;color:var(--text);margin-bottom:10px;}
+.cat-desc{font-size:.8rem;color:var(--muted);line-height:1.7;margin-bottom:20px;}
+.cat-link{font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);display:flex;align-items:center;gap:8px;transition:.3s;}
+.cat-link .arrow{display:inline-flex;width:28px;height:28px;border:1px solid var(--muted2);border-radius:50%;align-items:center;justify-content:center;font-size:.85rem;transition:.3s;}
+.cat-card:hover .cat-link .arrow{background:var(--accent);border-color:var(--accent);color:#fff;transform:rotate(45deg);}
+
+/* PRODUCTS */
+.products{background:var(--bg2);}
+.prod-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;}
+.prod-header .sec-title{margin-bottom:0;}
+.view-all{font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:.3s;background:none;border:none;}
+.view-all:hover{color:var(--accent);}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
+.pcard{background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--border);transition:.35s;cursor:pointer;}
+.pcard:hover{border-color:var(--muted2);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.15);}
+.pcard-img{height:210px;display:flex;align-items:center;justify-content:center;font-size:3.8rem;background:var(--bg3);position:relative;}
+.pbadge{position:absolute;top:12px;left:12px;font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;}
+.pb-new{background:var(--text);color:var(--bg);}
+.pb-sale{background:var(--accent);color:#fff;}
+.pcard-body{padding:18px 20px;}
+.pcard-cat{font-size:.62rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.pcard-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--text);margin-bottom:12px;}
+.pcard-footer{display:flex;align-items:center;justify-content:space-between;}
+.pcard-price{font-size:1rem;font-weight:600;color:var(--text);}
+.pcard-price s{font-size:.78rem;color:var(--muted);font-weight:400;margin-left:6px;}
+.padd{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s;}
+.padd:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.wcard{background:var(--bg);padding:40px 32px;}
+.wicon{font-size:1.6rem;margin-bottom:20px;}
+.wtitle{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--text);margin-bottom:10px;}
+.wtext{font-size:.8rem;color:var(--muted);line-height:1.8;}
+
+/* NEWSLETTER */
+.newsletter{background:var(--bg3);border-radius:16px;padding:64px 48px;text-align:center;border:1px solid var(--border);margin:0 48px;}
+.nl-tag{font-size:.68rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.nl-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:600;color:var(--text);margin-bottom:12px;}
+.nl-sub{font-size:.88rem;color:var(--muted);margin-bottom:32px;}
+.nl-form{display:flex;gap:12px;justify-content:center;max-width:460px;margin:0 auto;}
+.nl-input{flex:1;padding:13px 20px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:.3s;}
+.nl-input:focus{border-color:var(--accent);}
+.nl-input::placeholder{color:var(--muted);}
+.nl-btn{padding:13px 28px;background:var(--text);color:var(--bg);border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:.3s;white-space:nowrap;}
+.nl-btn:hover{background:var(--accent);color:#fff;}
+
+/* FOOTER */
+footer{padding:64px 48px 32px;border-top:1px solid var(--border);}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--text);margin-bottom:12px;}
+.footer-logo span{color:var(--accent);}
+.footer-desc{font-size:.8rem;color:var(--muted);line-height:1.8;}
+.footer-col h4{font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--text);margin-bottom:18px;}
+.footer-col a{display:block;font-size:.8rem;color:var(--muted);text-decoration:none;margin-bottom:10px;transition:.3s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-copy{font-size:.72rem;color:var(--muted);letter-spacing:1px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:14px 22px;font-size:.82rem;font-weight:500;z-index:999;transform:translateY(60px);opacity:0;transition:.3s;letter-spacing:.5px;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding:80px 24px 48px;}
+  .hero-right{display:none;}
+  .cat-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  nav{padding:0 24px;}
+  section{padding:72px 24px;}
+  .newsletter{margin:0 24px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">SYBUG <span>STORE</span></div>
+  <ul class="nav-links">
+    <li><a href="#categories">Shop</a></li>
+    <li><a href="#products">New In</a></li>
+    <li><a href="#why">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeBtn" title="Toggle theme"></button>
+    <button class="cart-pill" id="cartBtn">Bag — <span id="cartCount">0</span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">New Season. New Drops.</div>
+    <h1>Live<br><em>Different.</em><br>Shop Bold.</h1>
+    <p class="hero-sub">Tech, fashion & home essentials — curated for the ones who don't settle. Premium quality, effortlessly delivered.</p>
+    <div class="hero-btns">
+      <button class="btn-main" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+      <button class="btn-ghost" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">Explore</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hstat-num">12K+</div><div class="hstat-label">Customers</div></div>
+      <div><div class="hstat-num">500+</div><div class="hstat-label">Products</div></div>
+      <div><div class="hstat-num">48h</div><div class="hstat-label">Delivery</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hero-visual-text">S</div>
+      <div class="hero-float hf1">
+        <div class="hf-label">New Drop</div>
+        <div class="hf-val">Phantom Watch ⌚</div>
+      </div>
+      <div class="hero-float hf2">
+        <div class="hf-label">Status</div>
+        <div class="hf-val"><span class="hf-dot"></span>In Stock</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Sybug Store</span><span class="dot">✦</span><span>Tech Gadgets</span><span class="dot">✦</span><span>Fashion</span><span class="dot">✦</span><span>Home Essentials</span><span class="dot">✦</span><span>48hr Delivery</span><span class="dot">✦</span><span>Premium Quality</span><span class="dot">✦</span><span>New Arrivals</span><span class="dot">✦</span><span>Shop Now</span><span class="dot">✦</span>
+    <span>Sybug Store</span><span class="dot">✦</span><span>Tech Gadgets</span><span class="dot">✦</span><span>Fashion</span><span class="dot">✦</span><span>Home Essentials</span><span class="dot">✦</span><span>48hr Delivery</span><span class="dot">✦</span><span>Premium Quality</span><span class="dot">✦</span><span>New Arrivals</span><span class="dot">✦</span><span>Shop Now</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="sec-label">Collections</div>
+  <div class="sec-title">Shop by <em>Category</em></div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <div class="cat-num">01</div>
+      <div class="cat-inner">
+        <div class="cat-emoji">⚡</div>
+        <div class="cat-tag">Collection</div>
+        <div class="cat-name">Tech Gadgets</div>
+        <div class="cat-desc">Next-level devices for those who live ahead of the curve.</div>
+        <div class="cat-link">Browse <span class="arrow">↗</span></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-num">02</div>
+      <div class="cat-inner">
+        <div class="cat-emoji">👑</div>
+        <div class="cat-tag">Collection</div>
+        <div class="cat-name">Fashion</div>
+        <div class="cat-desc">Effortless fits that say everything without saying a word.</div>
+        <div class="cat-link">Browse <span class="arrow">↗</span></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-num">03</div>
+      <div class="cat-inner">
+        <div class="cat-emoji">✨</div>
+        <div class="cat-tag">Collection</div>
+        <div class="cat-name">Home Essentials</div>
+        <div class="cat-desc">Premium cleaning & home products for your perfect space.</div>
+        <div class="cat-link">Browse <span class="arrow">↗</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="prod-header">
+    <div>
+      <div class="sec-label">Just Dropped</div>
+      <div class="sec-title">New <em>Arrivals</em></div>
+    </div>
+    <button class="view-all">View All →</button>
+  </div>
+  <div class="prod-grid" id="prod-grid"></div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="sec-label">Why Sybug</div>
+  <div class="sec-title">The <em>Standard</em></div>
+  <div class="why-grid">
+    <div class="wcard"><div class="wicon">🛡️</div><div class="wtitle">Premium Quality</div><div class="wtext">Every item is hand-picked and verified. Only the best earns the Sybug name.</div></div>
+    <div class="wcard"><div class="wicon">⚡</div><div class="wtitle">48hr Delivery</div><div class="wtext">Fast, reliable shipping across India. Order today, flex tomorrow.</div></div>
+    <div class="wcard"><div class="wicon">💎</div><div class="wtitle">Exclusive Access</div><div class="wtext">Members get first access to new drops, limited editions, and private sales.</div></div>
+    <div class="wcard"><div class="wicon">💬</div><div class="wtitle">Real Support</div><div class="wtext">Humans, not bots. Our team is available 24/7 for anything you need.</div></div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <div class="nl-tag">Stay In The Loop</div>
+  <div class="nl-title">Get Early Access to Drops</div>
+  <div class="nl-sub">No spam. Just exclusive deals, new arrivals, and good stuff.</div>
+  <div class="nl-form">
+    <input class="nl-input" type="email" placeholder="your@email.com"/>
+    <button class="nl-btn" onclick="showToast('✓ You\'re on the list!')">Subscribe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">SYBUG <span>STORE</span></div>
+      <div class="footer-desc">Where power meets luxury. Premium tech, fashion & home essentials — curated for the extraordinary.</div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><a href="#">Tech Gadgets</a><a href="#">Fashion</a><a href="#">Home Essentials</a><a href="#">New Arrivals</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">Press</a><a href="#">Contact</a></div>
+    <div class="footer-col"><h4>Support</h4><a href="#">FAQ</a><a href="#">Returns</a><a href="#">Shipping</a><a href="#">Privacy</a></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Sybug Store. All rights reserved.</div>
+    <div class="footer-copy">Made for those who stand out.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// THEME TOGGLE
+const btn = document.getElementById('themeBtn');
+btn.onclick = () => {
+  const t = document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme', t==='dark'?'light':'dark');
+};
+
+// PRODUCTS
+const prods = [
+  {e:'🎧',n:'Aura Pro Headphones',c:'Tech Gadgets',p:'₹8,999',o:'₹12,000',b:'new'},
+  {e:'⌚',n:'Phantom Smart Watch',c:'Tech Gadgets',p:'₹14,499',o:'₹18,000',b:'new'},
+  {e:'🧥',n:'Sovereign Overcoat',c:'Fashion',p:'₹5,299',o:'₹7,500',b:null},
+  {e:'👟',n:'Elite Runner X1',c:'Fashion',p:'₹3,799',o:'₹5,200',b:null},
+  {e:'✨',n:'Crystal Purifier Set',c:'Home Essentials',p:'₹1,899',o:'₹2,800',b:'sale'},
+  {e:'🌿',n:'Luxe Home Kit',c:'Home Essentials',p:'₹2,499',o:'₹3,500',b:null},
+  {e:'📱',n:'Sybug Tab Ultra',c:'Tech Gadgets',p:'₹22,999',o:'₹28,000',b:'new'},
+  {e:'👔',n:'Prestige Slim Suit',c:'Fashion',p:'₹9,499',o:'₹13,000',b:null},
+];
+const g = document.getElementById('prod-grid');
+prods.forEach(p=>{
+  const b = p.b ? `<div class="pbadge pb-${p.b}">${p.b==='new'?'New':'Sale'}</div>` : '';
+  g.innerHTML += `<div class="pcard"><div class="pcard-img">${b}${p.e}</div><div class="pcard-body"><div class="pcard-cat">${p.c}</div><div class="pcard-name">${p.n}</div><div class="pcard-footer"><div class="pcard-price">${p.p} <s>${p.o}</s></div><button class="padd" onclick="addCart('${p.n}')">+</button></div></div></div>`;
+});
+
+let cc = 0;
+function addCart(n){cc++;document.getElementById('cartCount').textContent=cc;showToast(n+' added to bag');}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+</script>
+</body>
+</html>
